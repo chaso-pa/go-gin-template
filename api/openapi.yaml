@@ -1,133 +1,141 @@
-openapi: "3.0.1"
+openapi: 3.0.1
 info:
+  description: Lorem ipsum dolor sit amet.(Change me!)
   title: sample title(change me!)
   version: 1.0.0
-  description: Lorem ipsum dolor sit amet.(Change me!)
 servers:
-  - url: "localhost:13500"
-    description: 手元の環境
+- description: 手元の環境
+  url: localhost:13500
+tags:
+- description: Version 1 endpoints
+  name: v1
 paths:
-  '/v1/check':
+  /v1/check:
     get:
-      tags:
-        - v1
       operationId: root
       responses:
-        '200':
-          description: Pointの取得成功
+        "200":
           content:
             application/json:
               schema:
-                type: object
                 example:
-                  message: "Hello world"
-        '400':
+                  message: Hello world
+                type: object
+          description: Pointの取得成功
+        "400":
           description: 不正なリクエストです。
-        '401':
+        "401":
           description: 認証エラーです。
-  '/v1/health_check':
-    get:
       tags:
-        - v1
+      - v1
+  /v1/health_check:
+    get:
       operationId: health_check
       responses:
-        '200':
-          description: システムは正常
+        "200":
           content:
             application/json:
               schema:
-                type: object
                 example:
-                  message: "System All Green!"
-        '400':
+                  message: System All Green!
+                type: object
+          description: システムは正常
+        "400":
           description: 不正なリクエストです。
-        '401':
+        "401":
           description: 認証エラーです。
-  '/v1/double':
-    get:
       tags:
-        - v1
+      - v1
+  /v1/double:
+    get:
       operationId: double
       parameters:
-        - $ref: '#/components/parameters/num_input'
+      - description: This is sample num_input
+        explode: true
+        in: query
+        name: num_input
+        required: true
+        schema:
+          type: integer
+        style: form
       responses:
-        '200':
-          description: 入力した値の二乗を返す
+        "200":
           content:
             application/json:
               schema:
-                type: object
                 example:
                   message: "4"
-        '400':
+                type: object
+          description: 入力した値の二乗を返す
+        "400":
           description: 不正なリクエスト
-tags:
-  - name: v1
-    description: Version 1 endpoints
+      tags:
+      - v1
 components:
   parameters:
     num_input:
-      name: num_input
-      in: query
       description: This is sample num_input
+      explode: true
+      in: query
+      name: num_input
       required: true
       schema:
         type: integer
+      style: form
   schemas:
     Sample:
-      type: object
       properties:
         id:
-          type: integer
-          format: int64
           example: 1
+          format: int64
+          type: integer
         name:
-          type: string
           example: sample_name
-        url:
           type: string
-          example: 'https://www.example.com'
+        url:
+          example: https://www.example.com
+          type: string
+      type: object
     PokemonCards:
-      type: array
       items:
         $ref: '#/components/schemas/PokemonCard'
       properties:
         id:
-          type: integer
-          format: int64
           example: 4
+          format: int64
+          type: integer
+      type: array
     PokemonCard:
-      type: object
       properties:
         id:
-          type: integer
-          format: int64
           example: 4
+          format: int64
+          type: integer
         expansion:
-          type: string
           example: SV2D
+          type: string
         collection:
-          type: string
           example: 075/071
+          type: string
         rare:
-          type: string
           example: AR
-        type:
           type: string
+        type:
           example: ポケモン
+          type: string
         subtype:
           example: 超
           type: string
         name:
-          type: string
           example: スナバァ
+          type: string
         author:
-          type: string
           example: Teeziro
+          type: string
         img_url:
+          example: https://www.pokemon-card.com/assets/images/card_images/large/SV2D/043643_P_SUNABAA.jpg
           type: string
-          example: "https://www.pokemon-card.com/assets/images/card_images/large/SV2D/043643_P_SUNABAA.jpg"
         created_at:
-          type: string
           format: date-time
-          example: 2023-11-10 13:54:13
+          type: string
+      type: object
